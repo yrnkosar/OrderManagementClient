@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "../AuthContext";
 import "../styles/Login.css"; // Özel stiller için bir CSS dosyası
 import { useNavigate } from "react-router-dom"; // Yönlendirme için
 
@@ -10,6 +11,7 @@ const LoginPage = () => {
   const [error, setError] = useState(""); // Hata mesajlarını saklamak için
   const [loading, setLoading] = useState(false); // Yüklenme durumu
   const navigate = useNavigate(); // useNavigate tanımlandı!
+  const { setAuthTokenAndUser } = useAuth(); // AuthContext kullanımı
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,13 +41,18 @@ const LoginPage = () => {
         throw new Error(errorData || "Login failed.");
       }
 
-      const data = await response.json();
-      console.log("Login successful:", data);
+      const { token, customerId, customerType } = await response.json();
+      
+      // Token'ı ve kullanıcı bilgilerini kaydet
+      localStorage.setItem("authToken", token); // Token'ı localStorage'a kaydet
+      setAuthTokenAndUser(token, { customerId, customerType }); // AuthContext'e kaydet
 
-      // Token'ı localStorage'a kaydedin
-      localStorage.setItem("authToken", data.Token);
-      navigate("/home"); // Ana sayfaya yönlendirme
-
+      // Kullanıcı türüne göre yönlendirme
+      if (customerType === "Admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/home");
+      }
     } catch (error) {
       setError(error.message || "An error occurred.");
     } finally {
