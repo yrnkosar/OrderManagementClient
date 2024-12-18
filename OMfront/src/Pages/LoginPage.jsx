@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Login.css"; // Özel stiller için bir CSS dosyası
+import { useNavigate } from "react-router-dom"; // Yönlendirme için
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const LoginPage = () => {
   });
   const [error, setError] = useState(""); // Hata mesajlarını saklamak için
   const [loading, setLoading] = useState(false); // Yüklenme durumu
+  const navigate = useNavigate(); // useNavigate tanımlandı!
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,9 +44,8 @@ const LoginPage = () => {
 
       // Token'ı localStorage'a kaydedin
       localStorage.setItem("authToken", data.Token);
+      navigate("/home"); // Ana sayfaya yönlendirme
 
-      // Kullanıcıyı yönlendirme (örneğin, ana sayfaya)
-      window.location.href = "/dashboard";
     } catch (error) {
       setError(error.message || "An error occurred.");
     } finally {
