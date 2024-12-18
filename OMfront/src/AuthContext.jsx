@@ -2,33 +2,37 @@ import React, { createContext, useState, useContext } from "react";
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-  };
+
 export const AuthProvider = ({ children }) => {
-    const [authToken, setAuthToken] = useState(null);
-    const [user, setUser] = useState(null);
-  
-    const setAuthTokenAndUser = (token, userData) => {
-      setAuthToken(token);
-      setUser(userData);
-    };
-    const setToken = (token) => {
-        setAuthToken(token);
+    
+   // const [user, setUser] = useState(null);
+    const [auth, setAuth] = useState(null); // auth: { token, user }
+    const [user, setUser] = useState(null); // Kullanıcı bilgileri
+    const [customerType, setCustomerType] = useState(null); // customerType bilgisi
+   
+    const login = (token, userData) => {
+        setUser(userData); // Kullanıcı verisini context'e kaydediyoruz
+        setCustomerType(userData.customerType); // customerType'ı kaydediyoruz    
+        setAuth({ token, user });
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("authUser", JSON.stringify(user));
       };
+
   const logout = () => {
-    setAuthToken(null);
+    setCustomerType(null);
     setUser(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ authToken, user, setAuthTokenAndUser,setAuthToken, logout }}>
+    <AuthContext.Provider value={{ user, customerType,auth, login,  logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+export const useAuth = () => useContext(AuthContext);
+
 
 /*export const useAuth = () => {
     const context = useContext(AuthContext);

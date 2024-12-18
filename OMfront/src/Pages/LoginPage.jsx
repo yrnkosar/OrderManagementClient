@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
 import "../styles/Login.css"; // Özel stiller için bir CSS dosyası
@@ -11,7 +12,7 @@ const LoginPage = () => {
   const [error, setError] = useState(""); // Hata mesajlarını saklamak için
   const [loading, setLoading] = useState(false); // Yüklenme durumu
   const navigate = useNavigate(); // useNavigate tanımlandı!
-  const { setAuthTokenAndUser } = useAuth(); // AuthContext kullanımı
+  const { login, user } = useAuth();  // AuthContext kullanımı
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,30 +25,29 @@ const LoginPage = () => {
     setError(""); // Hata durumunu temizle
 
     try {
-      const response = await fetch("http://localhost:5132/api/Auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          CustomerName: formData.username,
-          Password: formData.password,
-        }),
-      });
+    const response = await fetch("http://localhost:5132/api/Auth/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    CustomerName: formData.username,
+    Password: formData.password,
+  }),
+});
+
 
       if (!response.ok) {
-        // Yanıt başarısızsa hata mesajını işle
         const errorData = await response.json();
         throw new Error(errorData || "Login failed.");
       }
 
       const { token, customerId, customerType } = await response.json();
-      
-      // Token'ı ve kullanıcı bilgilerini kaydet
-      localStorage.setItem("authToken", token); // Token'ı localStorage'a kaydet
-      setAuthTokenAndUser(token, { customerId, customerType }); // AuthContext'e kaydet
+   // localStorage.setItem("authToken", token); 
+    login(token, { customerId, customerType });
 
-      // Kullanıcı türüne göre yönlendirme
+  
+    // Kullanıcı türüne göre yönlendirme
       if (customerType === "Admin") {
         navigate("/admin-dashboard");
       } else {

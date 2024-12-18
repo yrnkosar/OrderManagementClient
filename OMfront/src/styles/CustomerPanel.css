@@ -1,0 +1,25 @@
+.customer-panel {
+    padding: 20px;
+  }
+  
+  .customer-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .customer-table th,
+  .customer-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .customer-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+  
