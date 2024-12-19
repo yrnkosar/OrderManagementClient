@@ -1,0 +1,42 @@
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: rgb(178, 138, 218);
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  button {
+    margin-top: 10px;
+  }
+  
+  label {
+    display: block;
+    color: black; /* Placeholder yazı rengini siyah yapar */
+    margin-top: 10px;
+  }
+  input::placeholder, textarea::placeholder {
+    color: #888; /* Daha açık gri renkte yazılar */
+    font-style: italic; /* Yazı stilini italik yapar */
+  }

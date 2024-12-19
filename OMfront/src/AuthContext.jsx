@@ -11,11 +11,13 @@ export const AuthProvider = ({ children }) => {
     const [customerType, setCustomerType] = useState(null); // customerType bilgisi
    
     const login = (token, userData) => {
+      const userWithToken = { ...userData, token }; // token'ı user objesine ekliyoruz
         setUser(userData); // Kullanıcı verisini context'e kaydediyoruz
         setCustomerType(userData.customerType); // customerType'ı kaydediyoruz    
-        setAuth({ token, user });
+        setAuth({ token, user: userWithToken }); // auth objesinde token ve user'ı birlikte saklıyoruz
+
         localStorage.setItem("authToken", token);
-        localStorage.setItem("authUser", JSON.stringify(user));
+        localStorage.setItem("authUser", JSON.stringify(userWithToken));
       };
 
   const logout = () => {

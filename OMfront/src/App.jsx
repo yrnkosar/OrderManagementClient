@@ -7,6 +7,7 @@ import Login from './Pages/LoginPage.jsx';
 import AdminDashboard from "./Pages/AdminDashboard";
 import HomePage from "./Pages/HomePage";
 import CustomerPanel from "./Pages/CustomerPanel";
+import ProductPanel from "./Pages/ProductPanel.jsx";
 function App() {
     return (
       <AuthProvider>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/customer-panel" element={<CustomerPanel />} />      
+        <Route path="/product-list" element={<ProductPanel />} />
        </Routes>
     </Router>
     </AuthProvider>
