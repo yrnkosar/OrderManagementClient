@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Home.css"; // Özel stiller için bir CSS dosyası
 import { useAuth } from "../AuthContext";
+import "../styles/Home.css";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { auth } = useAuth();
+  const { auth, userDetails } = useAuth(); // auth ve userDetails'i kullanıyoruz
 
-  // Ürünleri alıyoruz
+  useEffect(() => {
+    if (auth?.customerId) {
+      console.log("User Details:", auth);  // auth objesi üzerinden kullanıcı bilgilerini konsola yazdırıyoruz
+      console.log("User Budget:", userDetails?.budget);  // Bütçeyi userDetails üzerinden alıyoruz
+    }
+  }, [auth, userDetails]);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -35,10 +41,9 @@ const HomePage = () => {
     fetchProducts();
   }, []);
 
-  // Sepete ürün ekliyoruz
   const addToCart = (product) => {
     const newItem = {
-      id: product.productId||product.id,
+      id: product.productId || product.id,
       productName: product.productName,
       price: product.price,
       quantity: 1,
@@ -66,28 +71,29 @@ const HomePage = () => {
     alert(`${product.productName} has been added to the cart!`);
   };
 
-  // Sepetten ürün çıkarıyoruz
   const removeFromCart = (index) => {
     setCart((prevCart) => prevCart.filter((_, i) => i !== index));
   };
 
-  // Sipariş veriyoruz
   const placeOrder = async () => {
     if (cart.length === 0) {
       alert("Your cart is empty. Add some products to place an order!");
       return;
     }
 
-    const customerId = auth?.user?.customerId || localStorage.getItem("customerId");
-
-    if (!customerId) {
+    // Kullanıcı doğrulamasını kontrol et
+    const token = auth?.token || localStorage.getItem("authToken");  // auth.token ya da localStorage'dan token al
+    const customerId = auth?.customerId || localStorage.getItem("customerId");  // auth.user.customerId ya da localStorage'dan customerId al
+  
+    if (!token || !customerId) {
       alert("User is not authenticated. Please log in.");
       return;
     }
 
+    // Siparişi gönder
     for (const item of cart) {
       const orderData = {
-        productId: item.id|| item.productId,
+        productId: item.id || item.productId,
         quantity: item.quantity,
       };
 
@@ -98,7 +104,7 @@ const HomePage = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${auth?.token}`,
+            Authorization: `Bearer ${token}`, // Token'ı kullanıyoruz
           },
           body: JSON.stringify(orderData),
         });
@@ -123,30 +129,41 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
+      {auth?.customerId ? (
+        <div className="home-user-info">
+          <p>Welcome, {auth?.user?.customerName || "User"}!</p>
+          <p>
+            Your balance: ${userDetails?.budget ? userDetails.budget.toFixed(2) : "N/A"}
+          </p>
+        </div>
+      ) : (
+        <p>Loading user info...</p>
+      )}
+  
       <button
-        className="toggle-cart-button"
+        className="home-toggle-cart-button"
         onClick={() => setIsCartOpen(!isCartOpen)}
       >
         {isCartOpen ? "Close Cart" : "View Cart"} ({cart.length})
       </button>
-
+  
       <h1 className="home-title">Welcome to Our Store</h1>
-      {error && <p className="error-message">{error}</p>}
-
-      <div className="product-grid">
+      {error && <p className="home-error-message">{error}</p>}
+  
+      <div className="home-product-grid">
         {products.length > 0 ? (
           products.map((product, index) => (
-            <div key={product.id || index} className="product-card">
+            <div key={product.id || index} className="home-product-card">
               <img
                 src={product.photo || "default-image-url.jpg"}
                 alt={product.productName}
-                className="product-image"
+                className="home-product-image"
               />
-              <h2 className="product-name">{product.productName}</h2>
-              <p className="product-price">${product.price.toFixed(2)}</p>
-              <p className="product-description">{product.description}</p>
+              <h2 className="home-product-name">{product.productName}</h2>
+              <p className="home-product-price">${product.price.toFixed(2)}</p>
+              <p className="home-product-description">{product.description}</p>
               <button
-                className="add-to-cart-button"
+                className="home-add-to-cart-button"
                 onClick={() => addToCart(product)}
               >
                 Add to Cart
@@ -154,23 +171,23 @@ const HomePage = () => {
             </div>
           ))
         ) : (
-          <p className="no-products">No products available</p>
+          <p className="home-no-products">No products available</p>
         )}
       </div>
-
+  
       {isCartOpen && (
-        <div className="cart">
+        <div className="home-cart">
           <h2>Your Cart</h2>
           {cart.length > 0 ? (
             <>
               <ul>
                 {cart.map((item, index) => (
-                  <li key={index} className="cart-item">
+                  <li key={index} className="home-cart-item">
                     <span>{item.productName}</span>
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                     <span>Quantity: {item.quantity}</span>
                     <button
-                      className="remove-from-cart-button"
+                      className="home-remove-from-cart-button"
                       onClick={() => removeFromCart(index)}
                     >
                       Remove
@@ -178,7 +195,7 @@ const HomePage = () => {
                   </li>
                 ))}
               </ul>
-              <button className="place-order-button" onClick={placeOrder}>
+              <button className="home-place-order-button" onClick={placeOrder}>
                 Place Order
               </button>
             </>

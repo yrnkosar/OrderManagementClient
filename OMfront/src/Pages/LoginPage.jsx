@@ -1,18 +1,19 @@
-
 import React, { useState } from "react";
-import { useAuth } from "../AuthContext";
-import "../styles/Login.css"; // Özel stiller için bir CSS dosyası
-import { useNavigate } from "react-router-dom"; // Yönlendirme için
+import { useAuth } from "../AuthContext"; // Import the useAuth hook
+import "../styles/Login.css"; 
+import { useNavigate } from "react-router-dom"; 
+import jwtDecode from "jwt-decode";
 
 const LoginPage = () => {
+  const { setAuthTokenAndUser, setUser, setRole, setUserDetails } = useAuth(); // Use `setUser` from context
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const [error, setError] = useState(""); // Hata mesajlarını saklamak için
-  const [loading, setLoading] = useState(false); // Yüklenme durumu
-  const navigate = useNavigate(); // useNavigate tanımlandı!
-  const { login, user } = useAuth();  // AuthContext kullanımı
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,75 +23,94 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(""); // Hata durumunu temizle
+    setError("");
 
     try {
-    const response = await fetch("http://localhost:5132/api/Auth/login", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    CustomerName: formData.username,
-    Password: formData.password,
-  }),
-});
-
+      const response = await fetch("http://localhost:5132/api/Auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          CustomerName: formData.username,
+          Password: formData.password,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData || "Login failed.");
+        throw new Error(errorData.message || "Login failed.");
       }
 
-      const { token, customerId, customerType } = await response.json();
-   // localStorage.setItem("authToken", token); 
-    login(token, { customerId, customerType });
+      const data = await response.json();
+      console.log("Parsed response data:", data);  // Check response data
 
-  
-    // Kullanıcı türüne göre yönlendirme
-      if (customerType === "Admin") {
+      // Decode the JWT token for user details and role
+      const decoded = jwtDecode(data.token);
+
+      // Update the context with the new token and user data
+      setAuthTokenAndUser(data.token);
+      setUser(decoded); // Store decoded user information in context
+      setRole(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
+      setUserDetails(data); // If needed
+
+      // Redirect based on role
+      const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      console.log("User Role:", role);
+
+      if (role === "Admin") {
+        console.log("Navigating to Admin Dashboard");
         navigate("/admin-dashboard");
-      } else {
+      } else if (role === "Standard") {
+        console.log("Navigating to Home");
         navigate("/home");
+      } else {
+        console.log("Role not recognized.");
+        setError("Role not recognized.");
       }
     } catch (error) {
-      setError(error.message || "An error occurred.");
+      console.error("Request failed:", error);
+      setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
+    <body class="login-body">
+       
     <div className="login-page">
       <div className="login-container">
         <h1 className="login-title">Welcome Back</h1>
         <p className="login-subtitle">Log in to continue</p>
         <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
+          <div className="login-form-group">
+            <label htmlFor="username" className="login-label">Username</label>
             <input
               type="text"
               id="username"
               name="username"
               value={formData.username}
               onChange={handleInputChange}
+              className="login-input"
               placeholder="Enter your username"
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          <div className="login-form-group">
+            <label htmlFor="password" className="login-label">Password</label>
             <input
               type="password"
               id="password"
               name="password"
               value={formData.password}
               onChange={handleInputChange}
+              className="login-input"
               placeholder="Enter your password"
               required
             />
           </div>
-          {error && <p className="error-message">{error}</p>}
+          {error && <p className="login-error-message">{error}</p>}
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? "Logging in..." : "Log In"}
           </button>
@@ -101,8 +121,12 @@ const LoginPage = () => {
           </p>
         </div>
       </div>
-    </div>
+    </div> 
+    
+    </body>
   );
 };
 
 export default LoginPage;
+
+

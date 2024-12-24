@@ -15,7 +15,7 @@ const CustomerPanel = () => {
     }
 
     try {
-      const response = await fetch("https://localhost:7038/api/Customer", {
+      const response = await fetch("http://localhost:5132/api/Customer", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -41,10 +41,11 @@ const CustomerPanel = () => {
   }, []);
 
   return (
+    <div className="customer-body">
     <div className="customer-panel">
       <h1>Customer Panel</h1>
       {loading && <p>Loading customers...</p>}
-      {error && <p className="error">{error}</p>}
+      {error && <p className="customer-error">{error}</p>}
       {!loading && !error && (
         <table className="customer-table">
           <thead>
@@ -54,7 +55,6 @@ const CustomerPanel = () => {
               <th>Type</th>
               <th>Budget</th>
               <th>Total Spent</th>
-              
             </tr>
           </thead>
           <tbody>
@@ -71,6 +71,7 @@ const CustomerPanel = () => {
         </table>
       )}
     </div>
+  </div>
   );
 };
 

@@ -1,25 +1,91 @@
+/* Customer Body */
+.customer-body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; 
+  align-items: flex-start; 
+  height: 100%; 
+  min-height: 100vh; 
+  width: 100vw; 
+  color: #333;
+}
+
 .customer-panel {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #ffffff;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.customer-panel h1 {
+  font-size: 2rem;
+  color: #4a4a4a;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.customer-error {
+  color: #d62020;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Table styles */
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.customer-table th,
+.customer-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.customer-table th {
+  background-color: #6e8efb;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.customer-table td {
+  background-color: #ffffff;
+}
+
+.customer-table tr:nth-child(even) td {
+  background-color: #f2f2f2;
+}
+
+.customer-table tr:hover td {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+/* Loading and error message styles */
+.customer-panel p {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .customer-panel {
     padding: 20px;
   }
-  
+
   .customer-table {
-    width: 100%;
-    border-collapse: collapse;
+    font-size: 0.9rem;
   }
-  
-  .customer-table th,
-  .customer-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+
+  .customer-panel h1 {
+    font-size: 1.5rem;
   }
-  
-  .customer-table th {
-    background-color: #f4f4f4;
-  }
-  
-  .error {
-    color: red;
-    font-weight: bold;
-  }
-  
+}

@@ -141,10 +141,12 @@ const ProductPanel = () => {
     }
   };
   return (
-    <div className="product-list-page">
+   
+    <div className="product-body">
+      <div className="product-panel">
       <h1>Product List</h1>
       {loading && <p>Loading products...</p>}
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="product-error-message">{error}</p>}
       {!loading && !error && (
         <table className="product-table">
           <thead>
@@ -167,13 +169,13 @@ const ProductPanel = () => {
                 <td>{product.description}</td>
                 <td>
                   <button
-                    className="edit-button"
+                    className="product-edit-button"
                     onClick={() => openEditModal(product)}
                   >
                     Edit
                   </button>
                   <button
-                    className="delete-button"
+                    className="product-delete-button"
                     onClick={() => handleDelete(product.productId)}
                   >
                     Delete
@@ -184,89 +186,91 @@ const ProductPanel = () => {
           </tbody>
         </table>
       )}
-
+  
       {/* Modal */}
       {editingProduct && (
-  <div className="modal">
-  <div className="modal-content">
-    <h2>Edit Product</h2>
-    <form onSubmit={handleEditSubmit}>
-      {/* Salt okunur Product ID */}
-      <div>
-        <label>Product ID</label>
-        <p>{editingProduct.productId}</p> {/* Salt okunur şekilde gösterildi */}
-      </div>
-      <div>
-        <label>Name</label>
-        <input
-          type="text"
-          value={editForm.productName}
-          onChange={(e) =>
-            setEditForm({ ...editForm, productName: e.target.value })
-          }
-          required
-        />
-      </div>
-      <div>
-        <label>Stock</label>
-        <input
-          type="number"
-          value={editForm.stock}
-          onChange={(e) =>
-            setEditForm({ ...editForm, stock: e.target.value })
-          }
-          required
-        />
-      </div>
-      <div>
-        <label>Price</label>
-        <input
-          type="number"
-          step="0.01"
-          value={editForm.price}
-          onChange={(e) =>
-            setEditForm({ ...editForm, price: e.target.value })
-          }
-          required
-        />
-      </div>
-      <div>
-        <label>Description</label>
-        <textarea
-          value={editForm.description}
-          onChange={(e) =>
-            setEditForm({ ...editForm, description: e.target.value })
-          }
-          required
-        />
-      </div>
-      <div>
-        <label>Photo (URL)</label>
-        <input
-          type="text"
-          value={editForm.photo}
-          onChange={(e) =>
-            setEditForm({ ...editForm, photo: e.target.value })
-          }
-        />
-      </div>
-      <div className="modal-actions">
-        <button type="submit" className="save-button">
-          Save
-        </button>
-        <button
-          type="button"
-          className="cancel-button"
-          onClick={closeEditModal}
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+        <div className="product-modal">
+          <div className="product-modal-content">
+            <h2>Edit Product</h2>
+            <form onSubmit={handleEditSubmit}>
+              {/* Salt okunur Product ID */}
+              <div>
+                <label>Product ID</label>
+                <p>{editingProduct.productId}</p>
+              </div>
+              <div>
+                <label>Name</label>
+                <input
+                  type="text"
+                  value={editForm.productName}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, productName: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label>Stock</label>
+                <input
+                  type="number"
+                  value={editForm.stock}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, stock: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label>Price</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={editForm.price}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, price: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label>Description</label>
+                <textarea
+                  value={editForm.description}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, description: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label>Photo (URL)</label>
+                <input
+                  type="text"
+                  value={editForm.photo}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, photo: e.target.value })
+                  }
+                />
+              </div>
+              <div className="product-modal-actions">
+                <button type="submit" className="product-save-button">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="product-cancel-button"
+                  onClick={closeEditModal}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
+      </div>
     </div>
+  
   );
 };
 
