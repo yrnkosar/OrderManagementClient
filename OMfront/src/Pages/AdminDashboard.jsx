@@ -4,14 +4,16 @@ import { useAuth } from "../AuthContext";
 import "../styles/AdminDashboard.css"; 
 
 const AdminDashboard = () => {
-  const { user } = useAuth(); 
+  const { user, logout } = useAuth(); // Kullanıcı ve çıkış fonksiyonu
   console.log(user);  
   const navigate = useNavigate();
   const [products, setProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
+  const [pendingOrders, setPendingOrders] = useState([]);
+  const [processingOrders, setProcessingOrders] = useState([]);
+  const [processing, setProcessing] = useState(false);
 
-// Modal state management
-const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 const [newProduct, setNewProduct] = useState({
   productId: 0,
   productName: "",
@@ -23,15 +25,70 @@ const [newProduct, setNewProduct] = useState({
 
    useEffect(() => {
     if (!user) {
-      return; 
+       navigate("/"); 
     }
 
     if (user.customerType !== "Admin") {
       navigate("/home"); 
     }
+  // Fetch pending orders
+  fetchPendingOrders();
   }, [user, navigate]); 
 
-  
+  const fetchPendingOrders = async () => {
+    const token = localStorage.getItem("authToken");
+    try {
+      const response = await fetch("http://localhost:5132/api/Order/pending-orders", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setPendingOrders(data);
+      } else {
+        console.error("Error fetching pending orders:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching pending orders:", error);
+    }
+  };
+  const handleProcessAllOrders = async () => {
+    const token = localStorage.getItem("authToken");
+    setProcessing(true); // İşlemin başladığını belirt
+
+    try {
+      // Tüm siparişleri tek tek işleyin
+      for (const order of pendingOrders) {
+        const response = await fetch(
+          `http://localhost:5132/api/Orders/Process/${order.id}`,
+          {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          console.log(`Order ${order.id} processed successfully.`);
+        } else {
+          console.error(`Error processing order ${order.id}:`, response.statusText);
+        }
+      }
+
+      // Tüm işlemler tamamlandıktan sonra listeyi temizle
+      setPendingOrders([]);
+      alert("All orders have been processed.");
+    } catch (error) {
+      console.error("Error processing orders:", error);
+    } finally {
+      setProcessing(false); // İşlemin bittiğini belirt
+    }
+  };
+
   if (!user) {
     return null; 
   }
@@ -78,6 +135,32 @@ const [newProduct, setNewProduct] = useState({
         console.error("Error adding product:", error);
       }
     };
+    const approveAllOrders = async () => {
+      const token = localStorage.getItem("authToken");
+      setProcessing(true); // İşlemin başladığını belirt
+  
+      try {
+        // Tüm siparişleri onaylayacağız
+        const response = await fetch("http://localhost:5132/api/Order/approve-all-orders", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          }
+        });
+  
+        if (response.ok) {
+          alert("All orders approved successfully.");
+          setPendingOrders([]); // Onaylandıktan sonra siparişleri temizle
+        } else {
+          console.error("Error approving orders:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error approving orders:", error);
+      } finally {
+        setProcessing(false); // İşlem tamamlandığında
+      }
+    };
 
 // Open modal
 const openModal = () => {
@@ -93,9 +176,9 @@ const closeModal = () => {
 return (
   <div className="admin-dashboard">
     <h1>Admin Dashboard</h1>
-    <p>Welcome, {user.username}!</p>
+    <p>Welcome, {user.CustomerName}!</p>
     <p>Here you can manage users, settings, etc.</p>
-    
+    <button onClick={logout}>Logout</button>
     <div>
       <button className="customer-panel-button" onClick={handleCustomerPanelRedirect}>
         Go to Customer Panel
@@ -111,7 +194,37 @@ return (
         Add Product
       </button>
     </div>
-
+    <div className="pending-orders-section">
+  <h2>Pending Orders</h2>
+  {pendingOrders.length > 0 ? (
+    <div>
+      <ul>
+  {pendingOrders.map((order) => (
+    <li key={order.orderId} className="order-item">
+      <p>Order ID: {order.orderId}</p>
+      <p>Customer: {order.customerId}</p>
+      <p>Total: ${order.totalPrice}</p>
+    </li>
+  ))}
+</ul>
+      <button
+        onClick={handleProcessAllOrders}
+        className="process-all-button"
+        disabled={processing} // İşlem devam ederken butonu devre dışı bırak
+      >
+        {processing ? "Processing All Orders..." : "Process All Orders"}
+      </button>
+      <button
+        onClick={approveAllOrders} // Onaylama butonunu çağırıyoruz
+        className="approve-all-button"
+      >
+        Approve All Orders
+      </button>
+    </div>
+  ) : (
+    <p>No pending orders at the moment.</p>
+  )}
+</div>
     {/* Product Modal */}
     {isModalOpen && (
       <div className="modal">

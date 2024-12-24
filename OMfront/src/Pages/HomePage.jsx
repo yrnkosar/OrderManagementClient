@@ -37,13 +37,32 @@ const HomePage = () => {
 
   // Sepete ürün ekliyoruz
   const addToCart = (product) => {
-    const productId = product.id || product.productId;  // Burada doğru alanı kullanıyoruz
-    if (!productId) {
-      console.error("Product ID is missing.");
+    const newItem = {
+      id: product.productId||product.id,
+      productName: product.productName,
+      price: product.price,
+      quantity: 1,
+    };
+
+    if (!newItem.id) {
+      console.error("Product ID eksik:", product);
       return;
     }
-  
-    setCart((prevCart) => [...prevCart, product]);
+
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.findIndex(
+        (item) => item.id === newItem.id
+      );
+
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].quantity += 1;
+        return updatedCart;
+      }
+
+      return [...prevCart, newItem];
+    });
+
     alert(`${product.productName} has been added to the cart!`);
   };
 
@@ -59,7 +78,6 @@ const HomePage = () => {
       return;
     }
 
-    // Kullanıcı ID'sini auth'dan veya localStorage'dan alıyoruz
     const customerId = auth?.user?.customerId || localStorage.getItem("customerId");
 
     if (!customerId) {
@@ -67,41 +85,40 @@ const HomePage = () => {
       return;
     }
 
-// Sipariş verilerini hazırlıyoruz
-const orderData = {
-  items: cart.map((item) => ({
-    productId: item.id || item.productId,  // Ürün ID'sini doğru alıyoruz
-    quantity: 1,  // Varsayılan olarak quantity 1
-  })),
-  customerId: customerId,  // Kullanıcı ID'si
-};
+    for (const item of cart) {
+      const orderData = {
+        productId: item.id|| item.productId,
+        quantity: item.quantity,
+      };
 
-console.log("Order Data:", orderData);  // Sipariş verisini yazdırıyoruz
+      console.log("Order Data:", JSON.stringify(orderData, null, 2));
 
-try {
-  const response = await fetch("http://localhost:5132/api/Order/place-order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${auth?.token}`,
-    },
-    body: JSON.stringify(orderData),
-  });
+      try {
+        const response = await fetch("http://localhost:5132/api/Order/place-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+          body: JSON.stringify(orderData),
+        });
 
-  if (!response.ok) {
-    const errorMessage = await response.text();  // Detaylı hata mesajı
-    console.error("Error:", errorMessage);
-    throw new Error(`Failed to place order: ${response.status} - ${errorMessage}`);
-  }
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          console.error("Error:", errorMessage);
+          throw new Error(`Failed to place order: ${response.status} - ${errorMessage}`);
+        }
 
-  const result = await response.json();
-  alert("Your order has been placed successfully!");
-  setCart([]);  // Sipariş sonrası sepeti temizle
-  console.log("Order Result:", result);
-} catch (error) {
-  console.error("Error placing order:", error);
-  alert("Failed to place order. Please try again.");
-}
+        const result = await response.json();
+        console.log("Order placed successfully:", result);
+      } catch (error) {
+        console.error("Error placing order for product:", orderData.productId, error);
+        alert(`Failed to place order for product ID: ${orderData.productId}. Please try again.`);
+      }
+    }
+
+    alert("All orders have been placed successfully!");
+    setCart([]);
   };
 
   return (
@@ -150,7 +167,8 @@ try {
                 {cart.map((item, index) => (
                   <li key={index} className="cart-item">
                     <span>{item.productName}</span>
-                    <span>${item.price.toFixed(2)}</span>
+                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>Quantity: {item.quantity}</span>
                     <button
                       className="remove-from-cart-button"
                       onClick={() => removeFromCart(index)}

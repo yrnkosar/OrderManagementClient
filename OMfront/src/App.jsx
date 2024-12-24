@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { AuthProvider } from './AuthContext.jsx';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {AuthProvider} from "./AuthContext";
 import './App.css'
 import React from "react";
 import Login from './Pages/LoginPage.jsx';
@@ -10,8 +10,9 @@ import CustomerPanel from "./Pages/CustomerPanel";
 import ProductPanel from "./Pages/ProductPanel.jsx";
 function App() {
     return (
+     
+     <Router> 
       <AuthProvider>
-     <Router>
       <Routes>
         <Route path="/" element={<Login />} /> 
         <Route path="/home" element={<HomePage />} />
@@ -19,8 +20,9 @@ function App() {
         <Route path="/customer-panel" element={<CustomerPanel />} />      
         <Route path="/product-list" element={<ProductPanel />} />
        </Routes>
+       </AuthProvider>
     </Router>
-    </AuthProvider>
+    
 
   )
 }
