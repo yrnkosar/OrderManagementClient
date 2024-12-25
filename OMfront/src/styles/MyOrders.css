@@ -12,6 +12,45 @@
   width: 100vw;
   color: #333;
 }
+.progress-bar-container {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 20px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  text-align: center;
+  line-height: 20px;
+  color: white;
+  font-size: 12px;
+  animation: progressAnimation 2s ease forwards, colorAnimation 2s ease forwards;
+}
+/* Genişlik Animasyonu */
+@keyframes progressAnimation {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress-width);
+  }
+}
+
+/* Renk Animasyonu */
+@keyframes colorAnimation {
+  0% {
+    background-color: #f44336; /* Kırmızı (Pending) */
+  }
+  50% {
+    background-color: #ff9800; /* Turuncu (Processing) */
+  }
+  100% {
+    background-color: #4caf50; /* Yeşil (Completed) */
+  }
+}
 
 .my-orders-panel {
   width: 100%;
