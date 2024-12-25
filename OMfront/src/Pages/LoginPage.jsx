@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "../AuthContext"; // Import the useAuth hook
+import { useAuth } from "../AuthContext"; 
 import "../styles/Login.css"; 
 import { useNavigate } from "react-router-dom"; 
 import jwtDecode from "jwt-decode";
