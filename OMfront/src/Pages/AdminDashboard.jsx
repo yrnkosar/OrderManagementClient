@@ -184,6 +184,7 @@ const AdminDashboard = () => {
         <button onClick={handleCustomerPanelRedirect} className="admin-button">Go to Customer Panel</button>
         <button onClick={() => navigate("/product-list")} className="admin-button">View Product List</button>
         <button onClick={() => navigate("/view-orders")} className="admin-button">View Orders</button>
+        <button onClick={() => navigate("/view-logs")} className="admin-button">View Logs</button>
         <button onClick={openModal} className="admin-button">Add Product</button>
       </div>
 

@@ -10,6 +10,7 @@ import CustomerPanel from "./Pages/CustomerPanel";
 import ProductPanel from "./Pages/ProductPanel.jsx";
 import ViewOrders from "./Pages/ViewOrders.jsx";
 import MyOrders from "./Pages/MyOrders.jsx";
+import ViewLogs from "./Pages/ViewLogs.jsx";
 
 function App() {
     return (
@@ -24,6 +25,8 @@ function App() {
         <Route path="/product-list" element={<ProductPanel />} />
         <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/view-orders" element={<ViewOrders />} />
+        <Route path="/view-logs" element={<ViewLogs />} />
+      
        </Routes>
        </AuthProvider>
     </Router>
