@@ -7,17 +7,17 @@ const ProductPanel = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [editingProduct, setEditingProduct] = useState(null); // Düzenlenen ürün
-  const [editForm, setEditForm] = useState({}); // Düzenleme formu verileri
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editForm, setEditForm] = useState({}); 
   const { auth } = useAuth();
   
   useEffect(() => {
     const fetchProducts = async () => {
-      try {console.log(auth?.token); // Token'ı burada kontrol edebilirsiniz.
+      try {console.log(auth?.token); 
 
         const response = await fetch("http://localhost:5132/api/Product", {
             headers: {
-              Authorization: `Bearer ${auth?.token}`, // Token doğrulaması
+              Authorization: `Bearer ${auth?.token}`, 
             },
           });if (!response.ok) {
           throw new Error("Failed to fetch products.");

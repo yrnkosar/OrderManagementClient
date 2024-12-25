@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext";
 import "../styles/Home.css";
+import { useNavigate } from "react-router-dom"; 
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -8,6 +9,7 @@ const HomePage = () => {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { auth, userDetails } = useAuth(); // auth ve userDetails'i kullanıyoruz
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (auth?.customerId) {
@@ -147,6 +149,14 @@ const HomePage = () => {
         {isCartOpen ? "Close Cart" : "View Cart"} ({cart.length})
       </button>
   
+   
+      <button
+        className="home-my-orders-button"
+        onClick={() => navigate("/my-orders")} 
+      >
+        My Orders
+      </button>
+
       <h1 className="home-title">Welcome to Our Store</h1>
       {error && <p className="home-error-message">{error}</p>}
   

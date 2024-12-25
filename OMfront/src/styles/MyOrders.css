@@ -1,0 +1,98 @@
+/* My Orders Body */
+.my-orders-body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  min-height: 100vh;
+  width: 100vw;
+  color: #333;
+}
+
+.my-orders-panel {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #ffffff;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.my-orders-panel h1 {
+  font-size: 2rem;
+  color: #4a4a4a;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.my-orders-error {
+  color: #d62020;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Table styles */
+.my-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.my-orders-table th,
+.my-orders-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.my-orders-table th {
+  background-color: #6e8efb;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.my-orders-table td {
+  background-color: #ffffff;
+}
+
+.my-orders-table tr:nth-child(even) td {
+  background-color: #f2f2f2;
+}
+
+.my-orders-table tr:hover td {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.my-orders-empty {
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Loading and error message styles */
+.my-orders-panel p {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .my-orders-panel {
+    padding: 20px;
+  }
+
+  .my-orders-table {
+    font-size: 0.9rem;
+  }
+
+  .my-orders-panel h1 {
+    font-size: 1.5rem;
+  }
+}

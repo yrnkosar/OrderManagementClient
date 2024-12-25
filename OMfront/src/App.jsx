@@ -9,6 +9,7 @@ import HomePage from "./Pages/HomePage";
 import CustomerPanel from "./Pages/CustomerPanel";
 import ProductPanel from "./Pages/ProductPanel.jsx";
 import ViewOrders from "./Pages/ViewOrders.jsx";
+import MyOrders from "./Pages/MyOrders.jsx";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/customer-panel" element={<CustomerPanel />} />      
         <Route path="/product-list" element={<ProductPanel />} />
+        <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/view-orders" element={<ViewOrders />} />
        </Routes>
        </AuthProvider>
