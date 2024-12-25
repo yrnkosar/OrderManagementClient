@@ -3,8 +3,8 @@ import "../styles/CustomerPanel.css"; // İsteğe bağlı özel stil
 import { useAuth } from "../AuthContext.jsx";
 
 const CustomerPanel = () => {
-    const { auth, logout } = useAuth(); // AuthContext'ten auth ve logout'u al
-    const [customers, setCustomers] = useState([]);
+  const { auth, logout } = useAuth(); // AuthContext'ten auth ve logout'u al
+  const [customers, setCustomers] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

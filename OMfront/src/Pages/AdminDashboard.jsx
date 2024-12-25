@@ -183,6 +183,7 @@ const AdminDashboard = () => {
         <button onClick={logout} className="admin-button">Logout</button>
         <button onClick={handleCustomerPanelRedirect} className="admin-button">Go to Customer Panel</button>
         <button onClick={() => navigate("/product-list")} className="admin-button">View Product List</button>
+        <button onClick={() => navigate("/view-orders")} className="admin-button">View Orders</button>
         <button onClick={openModal} className="admin-button">Add Product</button>
       </div>
 
@@ -200,13 +201,7 @@ const AdminDashboard = () => {
                 </li>
               ))}
             </ul>
-            <button
-              onClick={handleProcessAllOrders}
-              className="admin-process-all-button"
-              disabled={processing}
-            >
-              {processing ? "Processing All Orders..." : "Process All Orders"}
-            </button>
+           
             <button
               onClick={approveAllOrders}
               className="admin-approve-all-button"

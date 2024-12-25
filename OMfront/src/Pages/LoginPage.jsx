@@ -61,7 +61,7 @@ const LoginPage = () => {
       if (role === "Admin") {
         console.log("Navigating to Admin Dashboard");
         navigate("/admin-dashboard");
-      } else if (role === "Standard") {
+      } else if (role === "Standard"|| role === "Premium") {
         console.log("Navigating to Home");
         navigate("/home");
       } else {
@@ -77,54 +77,53 @@ const LoginPage = () => {
   };
 
   return (
-    <body class="login-body">
-       
-    <div className="login-page">
-      <div className="login-container">
-        <h1 className="login-title">Welcome Back</h1>
-        <p className="login-subtitle">Log in to continue</p>
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="login-form-group">
-            <label htmlFor="username" className="login-label">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              className="login-input"
-              placeholder="Enter your username"
-              required
-            />
+    <div className="login-body">
+      <div className="login-page">
+        <div className="login-container">
+          <h1 className="login-title">Welcome Back</h1>
+          <p className="login-subtitle">Log in to continue</p>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="login-form-group">
+              <label htmlFor="username" className="login-label">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className="login-input"
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+            <div className="login-form-group">
+              <label htmlFor="password" className="login-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="login-input"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            {error && <p className="login-error-message">{error}</p>}
+            <button type="submit" className="login-button" disabled={loading}>
+              {loading ? "Logging in..." : "Log In"}
+            </button>
+          </form>
+          <div className="login-footer">
+            <p>
+              Don't have an account? <a href="/register">Sign up</a>
+            </p>
           </div>
-          <div className="login-form-group">
-            <label htmlFor="password" className="login-label">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              className="login-input"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          {error && <p className="login-error-message">{error}</p>}
-          <button type="submit" className="login-button" disabled={loading}>
-            {loading ? "Logging in..." : "Log In"}
-          </button>
-        </form>
-        <div className="login-footer">
-          <p>
-            Don't have an account? <a href="/register">Sign up</a>
-          </p>
         </div>
       </div>
-    </div> 
-    
-    </body>
+    </div>
   );
+  
 };
 
 export default LoginPage;

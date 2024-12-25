@@ -8,6 +8,8 @@ import AdminDashboard from "./Pages/AdminDashboard";
 import HomePage from "./Pages/HomePage";
 import CustomerPanel from "./Pages/CustomerPanel";
 import ProductPanel from "./Pages/ProductPanel.jsx";
+import ViewOrders from "./Pages/ViewOrders.jsx";
+
 function App() {
     return (
      
@@ -19,6 +21,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/customer-panel" element={<CustomerPanel />} />      
         <Route path="/product-list" element={<ProductPanel />} />
+        <Route path="/view-orders" element={<ViewOrders />} />
        </Routes>
        </AuthProvider>
     </Router>
