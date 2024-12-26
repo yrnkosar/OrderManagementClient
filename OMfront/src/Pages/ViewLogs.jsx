@@ -15,6 +15,14 @@ const ViewLogs = () => {
     }
 
     fetchLogs();
+    // Polling mechanism: Fetch logs every 5 seconds
+    const interval = setInterval(() => {
+      fetchLogs();
+    }, 5000); // 5000 ms = 5 seconds
+
+    return () => clearInterval(interval);
+
+
   }, [user, role, navigate]);
 
   const fetchLogs = async () => {
@@ -30,7 +38,9 @@ const ViewLogs = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setLogs(data);
+
+        const sortedData = data.sort((a, b) => b.logId - a.logId);
+        setLogs(sortedData);
       } else {
         console.error("Error fetching logs:", response.statusText);
       }

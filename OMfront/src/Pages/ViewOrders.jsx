@@ -27,8 +27,12 @@ const ViewOrders = () => {
         if (!response.ok) {
           throw new Error("Veri alınırken bir hata oluştu!");
         }
+
         const data = await response.json();
-        setOrders(data);
+
+        const sortedOrders = data.sort((a, b) => b.orderId - a.orderId);
+        
+        setOrders(sortedOrders);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -37,6 +41,11 @@ const ViewOrders = () => {
     };
 
     fetchOrders();
+    const interval = setInterval(fetchOrders, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+
   }, []);
 
   if (loading) return <div className="order-body"><p>Yükleniyor...</p></div>;
