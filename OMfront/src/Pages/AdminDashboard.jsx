@@ -26,15 +26,20 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
-    // Eğer user ya da role yoksa, giriş sayfasına yönlendir
     if (!user || role !== "Admin") {
-      navigate("/"); // Admin değilse giriş sayfasına yönlendir
+      navigate("/"); 
     }
 
-    // Fetch pending orders
     fetchPendingOrders();
     fetchProducts();
-  }, [user, role, navigate]); // user veya role değişirse, useEffect tetiklenir
+   
+    const interval = setInterval(() => {
+      fetchPendingOrders();
+    }, 5000); 
+
+    return () => clearInterval(interval);
+
+  }, [user, role, navigate]); 
   
   
   const fetchProducts = async () => {
