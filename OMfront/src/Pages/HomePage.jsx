@@ -62,8 +62,12 @@ const HomePage = () => {
       );
 
       if (existingItemIndex !== -1) {
-        const updatedCart = [...prevCart];
-        updatedCart[existingItemIndex].quantity += 1;
+        // Eğer ürün varsa miktarı kesin olarak 1 artır
+        const updatedCart = prevCart.map((item, index) =>
+          index === existingItemIndex
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
         return updatedCart;
       }
 
