@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext"; 
 import "../styles/AdminDashboard.css"; 
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 const AdminDashboard = () => {
   const { user, role, logout } = useAuth(); // Kullanıcı ve çıkış fonksiyonu, ayrıca role ekledik
   console.log(user);
@@ -30,7 +33,30 @@ const AdminDashboard = () => {
 
     // Fetch pending orders
     fetchPendingOrders();
+    fetchProducts();
   }, [user, role, navigate]); // user veya role değişirse, useEffect tetiklenir
+  
+  
+  const fetchProducts = async () => {
+    const token = localStorage.getItem("authToken");
+    try {
+      const response = await fetch("http://localhost:5132/api/Product", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data);
+      } else {
+        console.error("Error fetching products:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   const fetchPendingOrders = async () => {
     const token = localStorage.getItem("authToken");
@@ -169,6 +195,26 @@ const AdminDashboard = () => {
     setIsModalOpen(false);
   };
 
+  // Chart.js Data for Stock Chart
+  const getStockChartData = () => {
+    const productNames = products.map(product => product.productName);
+    const stockValues = products.map(product => product.stock);
+
+    return {
+      labels: productNames,
+      datasets: [
+        {
+          label: "Stock Levels",
+          data: stockValues,
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    };
+  };
+
+
   return (
     <div className="admin-body"> {/* Admin Body Container */}
     <div className="admin-page">
@@ -176,7 +222,18 @@ const AdminDashboard = () => {
       <h1 className="admin-heading">Admin Dashboard</h1>
       
       {/* Karşılama Yazısı */}
-      <p className="admin-welcome">Welcome, {user.CustomerName}!</p>
+      <p className="admin-welcome">Welcome, {user.customerName}!</p>
+
+{/* Product Stock Chart */}
+<div className="admin-stock-chart">
+          <h2>Product Stock Levels</h2>
+          {products.length > 0 ? (
+            <Bar data={getStockChartData()} />
+          ) : (
+            <p>Loading product data...</p>
+          )}
+        </div>
+
 
       {/* Butonlar */}
       <div className="admin-buttons">
