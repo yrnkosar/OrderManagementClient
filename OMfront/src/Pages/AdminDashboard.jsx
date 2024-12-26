@@ -216,15 +216,15 @@ const AdminDashboard = () => {
 
 
   return (
-    <div className="admin-body"> {/* Admin Body Container */}
+    <div className="admin-body"> 
     <div className="admin-page">
-      {/* Admin Dashboard Başlığı */}
+
       <h1 className="admin-heading">Admin Dashboard</h1>
       
-      {/* Karşılama Yazısı */}
+    
       <p className="admin-welcome">Welcome, {user.customerName}!</p>
 
-{/* Product Stock Chart */}
+
 <div className="admin-stock-chart">
           <h2>Product Stock Levels</h2>
           {products.length > 0 ? (
@@ -235,7 +235,7 @@ const AdminDashboard = () => {
         </div>
 
 
-      {/* Butonlar */}
+  
       <div className="admin-buttons">
         <button onClick={logout} className="admin-button">Logout</button>
         <button onClick={handleCustomerPanelRedirect} className="admin-button">Go to Customer Panel</button>
@@ -245,7 +245,7 @@ const AdminDashboard = () => {
         <button onClick={openModal} className="admin-button">Add Product</button>
       </div>
 
-      {/* Pending Orders Section */}
+
       <div className="admin-pending-orders-section">
         <h2 className="admin-orders-heading">Pending Orders</h2>
         {pendingOrders.length > 0 ? (
@@ -256,6 +256,8 @@ const AdminDashboard = () => {
                   <p>Order ID: {order.orderId}</p>
                   <p>Customer: {order.customerId}</p>
                   <p>Total: ${order.totalPrice}</p>
+                  <p>Waiting Time: {order.waitingTime} mins</p>
+                  <p>Priority Score: {order.priorityScore}</p> 
                 </li>
               ))}
             </ul>
