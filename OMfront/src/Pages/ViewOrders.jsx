@@ -67,6 +67,8 @@ const ViewOrders = () => {
                 <th>Adet</th>
                 <th>Toplam Fiyat</th>
                 <th>Durum</th>
+                <th>Waiting Time</th>
+                <th>Priority Score</th>
                 <th>Tarih</th>
                 <th>Ürün Görseli</th>
               </tr>
@@ -80,6 +82,8 @@ const ViewOrders = () => {
                   <td>{order.quantity}</td>
                   <td>{order.totalPrice} TL</td>
                   <td>{order.orderStatus}</td>
+                  <td>{order.waitingTime} mins</td>
+                  <td>{order.priorityScore}</td>
                   <td>{new Date(order.orderDate).toLocaleString()}</td>
                   <td>
                     <img

@@ -41,6 +41,12 @@ const MyOrdersPage = () => {
     };
 
     fetchOrders();
+
+     const interval = setInterval(() => {
+      fetchOrders();
+    }, 5000); 
+    return () => clearInterval(interval);
+
   }, []);
   const getProgressPercentage = (status) => {
     switch (status.toLowerCase()) {
