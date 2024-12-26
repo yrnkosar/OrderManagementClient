@@ -12,6 +12,26 @@
   width: 100vw;
   color: #333;
 }
+
+.product-stock-button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  background-color: #ffa500; /* Turuncu tonlarında bir renk */
+  color: white;
+}
+
+.product-stock-button:hover {
+  background-color: #e59400; /* Daha koyu turuncu */
+}
+
+.product-stock-button:active {
+  background-color: #cc8400; /* En koyu ton */
+}
+
 .product-panel {
   width: 100%;
   max-width: 1200px;

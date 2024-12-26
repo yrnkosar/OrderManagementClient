@@ -44,7 +44,7 @@ const ProductPanel = () => {
         return;
       }
   
-      const response = await fetch(`https://localhost:5132/api/Product/${productId}`, {
+      const response = await fetch(`http://localhost:5132/api/Product/${productId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -140,6 +140,52 @@ const ProductPanel = () => {
       alert(error.message || "Failed to update product.");
     }
   };
+
+  const handleStockUpdate = async (productId, newStock) => {
+    if (isNaN(newStock) || newStock < 0) {
+      alert("Please provide a valid non-negative stock value.");
+      return;
+    }
+  
+    try {
+      const token = auth?.token;
+  
+      if (!token) {
+        alert("Token not found. Please log in again.");
+        return;
+      }
+  
+      console.log(`Updating stock for Product ID: ${productId}, New Stock: ${newStock}`);
+  
+      const response = await fetch(`http://localhost:5132/api/Product/${productId}/update-stock`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: newStock.toString(),
+      });
+  
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Error response:", errorDetails);
+        throw new Error(errorDetails.message || "Failed to update stock.");
+      }
+  
+      const updatedProduct = await response.json();
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.productId === updatedProduct.productId ? updatedProduct : product
+        )
+      );
+  
+      alert("Stock updated successfully.");
+    } catch (error) {
+      console.error("Error updating stock:", error);
+      alert(error.message || "Failed to update stock.");
+    }
+  };
+
   return (
    
     <div className="product-body">
@@ -180,6 +226,17 @@ const ProductPanel = () => {
                   >
                     Delete
                   </button>
+                  <button
+                      className="product-stock-button"
+                      onClick={() => {
+                        const newStock = prompt("Enter new stock value:", product.stock);
+                        if (newStock !== null) {
+                          handleStockUpdate(product.productId, parseInt(newStock, 10));
+                        }
+                      }}
+                    >
+                      Update Stock
+                    </button>
                 </td>
               </tr>
             ))}
