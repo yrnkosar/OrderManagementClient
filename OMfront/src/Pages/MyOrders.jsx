@@ -4,50 +4,77 @@ import "../styles/MyOrders.css";
 
 const MyOrdersPage = () => {
   const [orders, setOrders] = useState([]);
+  const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
   const { auth } = useAuth();
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchOrdersAndLogs = async () => {
       const token = auth?.token || localStorage.getItem("authToken");
-      const customerId = auth?.customerId || localStorage.getItem("customerId");
 
-      if (!token || !customerId) {
+      if (!token) {
         setError("User is not authenticated. Please log in.");
         return;
       }
 
-      try {console.log(auth?.token); 
-        const response = await fetch(
+      try {
+        const orderResponse = await fetch(
           `http://localhost:5132/api/Order/my-orders`,
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${auth?.token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!orderResponse.ok) {
+          throw new Error(`HTTP error! Status: ${orderResponse.status}`);
         }
 
-        const data = await response.json();
-        setOrders(data);
+        const ordersData = await orderResponse.json();
+        setOrders(ordersData);
+
+        const logResponse = await fetch(
+          `http://localhost:5132/api/Log/my-logs`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!logResponse.ok) {
+          throw new Error(`HTTP error! Status: ${logResponse.status}`);
+        }
+
+        const logsData = await logResponse.json();
+        setLogs(logsData);
       } catch (error) {
-        console.error("Error fetching orders:", error);
-        setError("Failed to load orders. Please try again later.");
+        console.error("Error fetching data:", error);
+        setError("Failed to load data. Please try again later.");
       }
     };
 
-    fetchOrders();
+    fetchOrdersAndLogs();
 
-     const interval = setInterval(() => {
-      fetchOrders();
-    }, 5000); 
+    const interval = setInterval(() => {
+      fetchOrdersAndLogs();
+    }, 5000);
     return () => clearInterval(interval);
+  }, [auth]);
 
-  }, []);
+  const getLogDetailsForOrder = (orderId) => {
+    const log = logs.find((log) => log.orderId === orderId && log.logType === "Hata");
+    if (log) {
+      const startIndex = log.logDetails.indexOf("Sebep:");
+      return startIndex !== -1 ? log.logDetails.substring(startIndex) : "No details available.";
+    }
+    return "No details available.";
+  };
+
+  
   const getProgressPercentage = (status) => {
     switch (status.toLowerCase()) {
       case "pending":
@@ -77,12 +104,16 @@ const MyOrdersPage = () => {
               <th>Progress</th>
               <th>Date</th>
               <th>Photo</th>
+              <th>Reason</th>
             </tr>
           </thead>
           <tbody>
   {orders.map((order) => {
     const progress = getProgressPercentage(order.orderStatus);
-
+    const logDetails =
+    order.orderStatus.toLowerCase() === "cancelled"
+      ? getLogDetailsForOrder(order.orderId)
+      : null;
     return (
       <tr key={order.orderId}>
         <td>{order.orderId}</td>
@@ -108,6 +139,7 @@ const MyOrdersPage = () => {
             style={{ width: "100px", height: "100px", objectFit: "contain" }}
           />
         </td>
+        <td>{logDetails || "-"}</td>
       </tr>
     );
   })}

@@ -33,6 +33,7 @@ const ProductPanel = () => {
 
     fetchProducts();
   }, []);
+
   const handleDelete = async (productId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this product?");
     if (!confirmDelete) return;
@@ -65,7 +66,50 @@ const ProductPanel = () => {
       alert(error.message || "Failed to delete product.");
     }
   };
- 
+  /*const handleDelete = async (productId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to mark this product as deleted?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const token = auth?.token;
+      if (!token) {
+        alert("Token not found. Please log in again.");
+        return;
+      }
+
+      const updatedProduct = {
+        visibility: false,
+      };
+
+      const response = await fetch(`http://localhost:5132/api/Product`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedProduct),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to mark product as deleted.");
+      }
+
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.productId === productId ? { ...product, visibility: 0 } : product
+        )
+      );
+
+      alert("Product marked as deleted successfully.");
+    } catch (error) {
+      console.error("Error marking product as deleted:", error);
+      alert(error.message || "Failed to mark product as deleted.");
+    }
+  };*/
+
+
   const openEditModal = (product) => {
     console.log(product.productId); // Make sure this logs the product ID when you open the modal
     setEditingProduct(product); // This should set the editingProduct state correctly
