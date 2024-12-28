@@ -32,8 +32,11 @@ const MyOrdersPage = () => {
           throw new Error(`HTTP error! Status: ${orderResponse.status}`);
         }
 
-        const ordersData = await orderResponse.json();
+        let ordersData = await orderResponse.json();
+        // Ters sıralama
+        ordersData = ordersData.sort((a, b) => b.orderId - a.orderId);
         setOrders(ordersData);
+  
 
         const logResponse = await fetch(
           `http://localhost:5132/api/Log/my-logs`,
@@ -87,6 +90,22 @@ const MyOrdersPage = () => {
         return 0;
     }
   };
+  const getProgressClass = (status) => {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return "pending";
+      case "processing":
+        return "processing";
+      case "completed":
+        return "completed";
+      case "cancelled":
+        return "cancelled";
+      default:
+        return "";
+    }
+  };
+
+
   return (
     <div className="my-orders-body">
         <div className="my-orders-panel">
@@ -110,6 +129,8 @@ const MyOrdersPage = () => {
           <tbody>
   {orders.map((order) => {
     const progress = getProgressPercentage(order.orderStatus);
+    const progressClass = getProgressClass(order.orderStatus); 
+            
     const logDetails =
     order.orderStatus.toLowerCase() === "cancelled"
       ? getLogDetailsForOrder(order.orderId)
@@ -122,15 +143,15 @@ const MyOrdersPage = () => {
         <td>${order.totalPrice}</td>
         <td>{order.orderStatus}</td>
         <td>
-          <div className="progress-bar-container">
-            <div
-              className="progress-bar"
-              style={{ "--progress-width": `${progress}%` }}
-            >
-              {progress}%
-            </div>
-          </div>
-        </td>
+                    <div className="order-progress-bar-container">
+                      <div
+                        className={`order-progress-bar ${progressClass}`}
+                        style={{ width: `${progress}%` }}
+                      >
+                        {progress}%
+                      </div>
+                    </div>
+                  </td>
         <td>{new Date(order.orderDate).toLocaleString()}</td>
         <td>
           <img

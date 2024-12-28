@@ -39,10 +39,13 @@
   }
 }
 
-/* Renk Animasyonu */
-@keyframes colorAnimation {
+ /* Renk Animasyonu */
+ @keyframes colorAnimation {
   0% {
     background-color: #f44336; /* Kırmızı (Pending) */
+  }
+  25% {
+    background-color: #ff00d0; /* Turuncu (Processing) */
   }
   50% {
     background-color: #ff9800; /* Turuncu (Processing) */

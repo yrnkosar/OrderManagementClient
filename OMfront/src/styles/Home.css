@@ -1,8 +1,27 @@
-/* General Styles */
+.home-header {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  padding: 20px 0;
+  background-color:  #f7f7f7; 
+  border-bottom: 2px solid #f0f0f0; 
+}
+
+.home-logo {
+  width: 200px; 
+  height: auto; 
+  position: absolute; 
+  top: 10px; 
+  left: 20px; 
+  object-fit: contain; 
+  z-index: 1000; 
+}
+
+
 .home-page {
   font-family: 'Roboto', sans-serif;
   padding: 20px;
-  background-color: #f5f7fa;
+  background-color: #f7f7f7; 
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,38 +29,37 @@
 }
 
 .home-title {
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   font-weight: bold;
-  color: #2c3e50;
+  color: #000000; 
   margin: 20px 0;
   text-align: center;
 }
 
-.home-user-info {
-  background-color: #ecf0f1;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+.home-edit-profile-button {
+  padding: 10px 20px;
+  background-color: #d562a7; 
+  color: #f7f7f7;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.home-user-info p {
-  font-size: 1.3rem;
-  color: #34495e;
-  margin: 10px 0;
+.home-edit-profile-button:hover {
+  background-color: #b82980; 
 }
 
-.home-error-message {
-  color: #e74c3c;
-  font-size: 1.2rem;
-  text-align: center;
-  margin-bottom: 20px;
+.home-profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ba2880; 
+  margin-right: 10px;
 }
 
-/* Product Grid */
+
 .home-product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -67,10 +85,9 @@
   transform: translateY(-10px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
-
 .home-product-image {
-  width: 80%; /* Genişlik daha küçük ayarlandı */
-  height: auto; /* Yükseklik orantılı olarak ayarlanır */
+  width: 80%; 
+  height: auto; 
   object-fit: cover;
   border-radius: 10px;
 }
@@ -89,10 +106,9 @@
 
 .home-product-price {
   font-size: 1.4rem;
-  color: #e74c3c;
+  color: #ba2880; 
   margin: 10px 0;
 }
-
 .home-product-description {
   font-size: 1.1rem;
   color: #7f8c8d;
@@ -101,7 +117,7 @@
 
 .home-add-to-cart-button {
   padding: 12px 30px;
-  background-color: #3498db;
+  background-color: #ba2880;
   color: white;
   border: none;
   border-radius: 8px;
@@ -111,28 +127,27 @@
 }
 
 .home-add-to-cart-button:hover {
-  background-color: #2980b9;
+  background-color: #d562a7;
 }
-
-/* Cart Styles */
 .home-toggle-cart-button {
-  background-color: #3498db;
+  background-color: #ba2880;
   color: white;
   padding: 15px 30px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-top: 30px;
   transition: background-color 0.3s ease;
 }
 
 .home-toggle-cart-button:hover {
-  background-color: #2980b9;
+  background-color: #d562a7;
 }
 
+/* Sepet */
 .home-cart {
-  background-color: #ffffff;
+  background-color: #f7f7f7;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   padding: 25px;
@@ -152,7 +167,6 @@
   color: #2c3e50;
   margin-bottom: 20px;
 }
-
 .home-cart-item {
   display: flex;
   justify-content: space-between;
@@ -185,10 +199,9 @@
 .home-remove-from-cart-button:hover {
   background-color: #c0392b;
 }
-
 .home-place-order-button {
   padding: 15px 40px;
-  background-color: #27ae60;
+  background-color: #a42b74;
   color: white;
   border: none;
   border-radius: 8px;
@@ -199,13 +212,90 @@
 }
 
 .home-place-order-button:hover {
-  background-color: #229954;
+  background-color: #b65c92;
 }
 
-/* Empty Cart */
+
 .home-no-products,
 .home-cart p {
   font-size: 1.2rem;
   color: #7f8c8d;
   text-align: center;
+}
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-content button {
+  padding: 8px 12px;
+  margin-right: 10px;
+  background-color: #ba2880;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #b4528d;
+}
+
+.home-user-info {
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.home-user-info p {
+  font-size: 1.3rem;
+  color: #34495e;
+  margin: 10px 0;
+}
+
+.home-error-message {
+  color: #e74c3c;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 20px;
 }

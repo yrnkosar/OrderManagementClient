@@ -1,4 +1,3 @@
-/* Order Body */
 .order-body {
     font-family: 'Roboto', sans-serif;
     background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -36,7 +35,7 @@
     text-align: center;
   }
   
-  /* Table styles */
+ 
   .order-table {
     width: 100%;
     border-collapse: collapse;
@@ -68,14 +67,49 @@
     background-color: #e0e0e0;
     cursor: pointer;
   }
-  
-  /* Loading and error message styles */
+ 
+.order-progress-bar-container {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 20px;
+  position: relative;
+}
+
+
+.order-progress-bar {
+  height: 100%;
+  text-align: center;
+  line-height: 20px;
+  color: white;
+  font-size: 12px;
+  transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+
+.order-progress-bar.pending {
+  background-color: #ff9800; 
+}
+
+.order-progress-bar.processing {
+  background-color: #2196f3; 
+}
+
+.order-progress-bar.completed {
+  background-color: #4caf50; 
+}
+
+.order-progress-bar.cancelled {
+  background-color: #f44336; 
+}
+
   .order-panel p {
     text-align: center;
     font-size: 1.1rem;
   }
   
-  /* Responsiveness */
+ 
   @media (max-width: 768px) {
     .order-panel {
       padding: 20px;
