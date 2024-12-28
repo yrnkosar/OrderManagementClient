@@ -33,8 +33,20 @@ const MyOrdersPage = () => {
         }
 
         let ordersData = await orderResponse.json();
+        // "Processing" durumundaki siparişleri en üste taşıyan sıralama
+    ordersData = ordersData.sort((a, b) => {
+      if (a.orderStatus.toLowerCase() === "processing" && b.orderStatus.toLowerCase() !== "processing") {
+        return -1;
+      }
+      if (a.orderStatus.toLowerCase() !== "processing" && b.orderStatus.toLowerCase() === "processing") {
+        return 1;
+      }
+      return b.orderId - a.orderId;
+    });
+        
+        
         // Ters sıralama
-        ordersData = ordersData.sort((a, b) => b.orderId - a.orderId);
+        //ordersData = ordersData.sort((a, b) => b.orderId - a.orderId);
         setOrders(ordersData);
   
 

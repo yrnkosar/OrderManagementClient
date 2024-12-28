@@ -200,25 +200,33 @@ const AdminDashboard = () => {
     setIsModalOpen(false);
   };
 
-  // Chart.js Data for Stock Chart
-  const getStockChartData = () => {
-    const productNames = products.map(product => product.productName);
-    const stockValues = products.map(product => product.stock);
+// Chart.js Data for Stock Chart
+const getStockChartData = () => {
+  const productNames = products.map(product => product.productName);
+  const stockValues = products.map(product => product.stock);
 
-    return {
-      labels: productNames,
-      datasets: [
-        {
-          label: "Stock Levels",
-          data: stockValues,
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1,
-        },
-      ],
-    };
+  // Stock Levels için renkleri belirle
+  const backgroundColors = stockValues.map(stock => 
+    stock < 100 ? "rgba(255, 99, 132, 0.2)" : "rgba(75, 192, 192, 0.2)"
+  );
+
+  const borderColors = stockValues.map(stock => 
+    stock < 100 ? "rgba(255, 99, 132, 1)" : "rgba(75, 192, 192, 1)"
+  );
+
+  return {
+    labels: productNames,
+    datasets: [
+      {
+        label: "Stock Levels",
+        data: stockValues,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
+        borderWidth: 1,
+      },
+    ],
   };
-
+};
 
   return (
     <div className="admin-body"> 
@@ -230,16 +238,14 @@ const AdminDashboard = () => {
       <p className="admin-welcome">Welcome, {user.customerName}!</p>
 
 
-<div className="admin-stock-chart">
-          <h2>Product Stock Levels</h2>
-          {products.length > 0 ? (
-            <Bar data={getStockChartData()} />
-          ) : (
-            <p>Loading product data...</p>
-          )}
-        </div>
-
-
+      <div className="admin-stock-chart">
+  <h2>Product Stock Levels</h2>
+  {products.length > 0 ? (
+    <Bar data={getStockChartData()} />
+  ) : (
+    <p>Loading product data...</p>
+  )}
+</div>
   
       <div className="admin-buttons">
         <button onClick={logout} className="admin-button">Logout</button>

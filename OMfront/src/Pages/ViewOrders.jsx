@@ -30,8 +30,20 @@ const ViewOrders = () => {
 
         const data = await response.json();
 
-        const sortedOrders = data.sort((a, b) => b.orderId - a.orderId);
-        
+        //const sortedOrders = data.sort((a, b) => b.orderId - a.orderId);
+            // "Processing" durumundaki siparişleri en üste taşıyan sıralama
+    const sortedOrders = data.sort((a, b) => {
+      if (a.orderStatus.toLowerCase() === "processing" && b.orderStatus.toLowerCase() !== "processing") {
+        return -1; // a üstte olsun
+      }
+      if (a.orderStatus.toLowerCase() !== "processing" && b.orderStatus.toLowerCase() === "processing") {
+        return 1; // b üstte olsun
+      }
+      return b.orderId - a.orderId; // Diğer durumlarda ters sıralama
+    });
+      
+      
+      
         setOrders(sortedOrders);
       } catch (err) {
         setError(err.message);
