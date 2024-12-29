@@ -1,4 +1,4 @@
-/* Customer Body */
+
 .customer-body {
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -36,7 +36,7 @@
   text-align: center;
 }
 
-/* Table styles */
+
 .customer-table {
   width: 100%;
   border-collapse: collapse;
@@ -69,13 +69,13 @@
   cursor: pointer;
 }
 
-/* Loading and error message styles */
+
 .customer-panel p {
   text-align: center;
   font-size: 1.1rem;
 }
 
-/* Responsiveness */
+
 @media (max-width: 768px) {
   .customer-panel {
     padding: 20px;

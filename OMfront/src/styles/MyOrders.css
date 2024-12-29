@@ -1,4 +1,3 @@
-/* My Orders Body */
 .my-orders-body {
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -29,7 +28,7 @@
   font-size: 12px;
   animation: progressAnimation 2s ease forwards, colorAnimation 2s ease forwards;
 }
-/* Genişlik Animasyonu */
+
 @keyframes progressAnimation {
   from {
     width: 0%;
@@ -39,19 +38,19 @@
   }
 }
 
- /* Renk Animasyonu */
+ 
  @keyframes colorAnimation {
   0% {
-    background-color: #f44336; /* Kırmızı (Pending) */
+    background-color: #f44336; 
   }
   25% {
-    background-color: #ff00d0; /* Turuncu (Processing) */
+    background-color: #ff00d0; 
   }
   50% {
-    background-color: #ff9800; /* Turuncu (Processing) */
+    background-color: #ff9800; 
   }
   100% {
-    background-color: #4caf50; /* Yeşil (Completed) */
+    background-color: #4caf50; 
   }
 }
 
@@ -118,13 +117,12 @@
   text-align: center;
 }
 
-/* Loading and error message styles */
+
 .my-orders-panel p {
   text-align: center;
   font-size: 1.1rem;
 }
 
-/* Responsiveness */
 @media (max-width: 768px) {
   .my-orders-panel {
     padding: 20px;

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 const LoginPage = () => {
-  const { setAuthTokenAndUser, setUser, setRole, setUserDetails } = useAuth(); // Use `setUser` from context
+  const { setAuthTokenAndUser, setUser, setRole, setUserDetails } = useAuth(); 
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -43,18 +43,17 @@ const LoginPage = () => {
       }
 
       const data = await response.json();
-      console.log("Parsed response data:", data);  // Check response data
+      console.log("Parsed response data:", data);  
 
-      // Decode the JWT token for user details and role
       const decoded = jwtDecode(data.token);
 
-      // Update the context with the new token and user data
+      
       setAuthTokenAndUser(data.token);
-      setUser(decoded); // Store decoded user information in context
+      setUser(decoded); 
       setRole(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
-      setUserDetails(data); // If needed
+      setUserDetails(data); 
 
-      // Redirect based on role
+    
       const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       console.log("User Role:", role);
 

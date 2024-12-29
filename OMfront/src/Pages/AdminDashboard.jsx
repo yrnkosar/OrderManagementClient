@@ -7,7 +7,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 const AdminDashboard = () => {
-  const { user, role, logout } = useAuth(); // Kullanıcı ve çıkış fonksiyonu, ayrıca role ekledik
+  const { user, role, logout } = useAuth(); 
   console.log(user);
   const navigate = useNavigate();
   const [products, setProducts] = useState([]); 
@@ -86,10 +86,9 @@ const AdminDashboard = () => {
 
   const handleProcessAllOrders = async () => {
     const token = localStorage.getItem("authToken");
-    setProcessing(true); // İşlemin başladığını belirt
+    setProcessing(true); 
 
     try {
-      // Tüm siparişleri tek tek işleyin
       for (const order of pendingOrders) {
         const response = await fetch(
           `http://localhost:5132/api/Orders/Process/${order.id}`,
@@ -108,25 +107,24 @@ const AdminDashboard = () => {
         }
       }
 
-      // Tüm işlemler tamamlandıktan sonra listeyi temizle
       setPendingOrders([]);
       alert("All orders have been processed.");
     } catch (error) {
       console.error("Error processing orders:", error);
     } finally {
-      setProcessing(false); // İşlemin bittiğini belirt
+      setProcessing(false); 
     }
   };
 
   if (!user || role !== "Admin") {
-    return null; // Eğer kullanıcı yoksa veya rol admin değilse, hiç bir şey gösterme
+    return null; 
   }
 
   const handleCustomerPanelRedirect = () => {
     navigate("/customer-panel");
   };
 
-  // Handle form input change
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewProduct((prevState) => ({
@@ -138,14 +136,14 @@ const AdminDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("authToken"); // Token'ı yerel depolamadan alabilirsiniz
+    const token = localStorage.getItem("authToken"); 
 
     try {
       const response = await fetch("http://localhost:5132/api/Product", {  
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // Token'ı Authorization başlığına ekleyin
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(newProduct),
       });
@@ -153,8 +151,8 @@ const AdminDashboard = () => {
       if (response.ok) {
         const addedProduct = await response.json();
         console.log("New product added:", addedProduct);
-        setProducts((prevProducts) => [...prevProducts, addedProduct]); // Add new product to list
-        setIsModalOpen(false); // Close modal after submission
+        setProducts((prevProducts) => [...prevProducts, addedProduct]); 
+        setIsModalOpen(false); 
       } else {
         console.error("Error adding product:", response.statusText);
       }
@@ -165,10 +163,9 @@ const AdminDashboard = () => {
 
   const approveAllOrders = async () => {
     const token = localStorage.getItem("authToken");
-    setProcessing(true); // İşlemin başladığını belirt
+    setProcessing(true); 
 
     try {
-      // Tüm siparişleri onaylayacağız
       const response = await fetch("http://localhost:5132/api/Order/approve-all-orders", {
         method: "POST",
         headers: {
@@ -179,33 +176,33 @@ const AdminDashboard = () => {
 
       if (response.ok) {
         alert("All orders approved successfully.");
-        setPendingOrders([]); // Onaylandıktan sonra siparişleri temizle
+        setPendingOrders([]); 
       } else {
         console.error("Error approving orders:", response.statusText);
       }
     } catch (error) {
       console.error("Error approving orders:", error);
     } finally {
-      setProcessing(false); // İşlem tamamlandığında
+      setProcessing(false); 
     }
   };
 
-  // Open modal
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  // Close modal
+  
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-// Chart.js Data for Stock Chart
+
 const getStockChartData = () => {
   const productNames = products.map(product => product.productName);
   const stockValues = products.map(product => product.stock);
 
-  // Stock Levels için renkleri belirle
+  
   const backgroundColors = stockValues.map(stock => 
     stock < 100 ? "rgba(255, 99, 132, 0.2)" : "rgba(75, 192, 192, 0.2)"
   );
@@ -285,7 +282,7 @@ const getStockChartData = () => {
         )}
       </div>
 
-      {/* Product Modal */}
+      
       {isModalOpen && (
         <div className="admin-modal open">
           <div className="admin-modal-content">

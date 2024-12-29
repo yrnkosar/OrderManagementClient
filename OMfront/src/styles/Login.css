@@ -1,6 +1,4 @@
 
-
-/* General styles for the login page */
 .login-body {
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -22,10 +20,8 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   padding: 30px 20px;
   box-sizing: border-box;
-
-  /* Tarayıcı sapmalarını engellemek için margin-auto */
   margin: auto;
-  position: relative; /* İçeriği ortalamayı garanti eder */
+  position: relative; 
 }
 
 .login-container {
@@ -45,7 +41,6 @@
   margin-bottom: 20px;
 }
 
-/* Form styles */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -82,7 +77,6 @@
   margin-top: -10px;
 }
 
-/* Button styles */
 .login-button {
   background: linear-gradient(135deg, #6e8efb, #a777e3);
   border: none;

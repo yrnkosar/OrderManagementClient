@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../styles/CustomerPanel.css"; // İsteğe bağlı özel stil
+import "../styles/CustomerPanel.css"; 
 import { useAuth } from "../AuthContext.jsx";
 
 const CustomerPanel = () => {
-  const { auth, logout } = useAuth(); // AuthContext'ten auth ve logout'u al
+  const { auth, logout } = useAuth(); 
   const [customers, setCustomers] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ const CustomerPanel = () => {
 
       if (response.status === 401) {
         console.error("Yetkilendirme hatası.");
-        logout(); // Eğer token geçersizse kullanıcıyı çıkış yap
+        logout(); 
         return;
       }
 

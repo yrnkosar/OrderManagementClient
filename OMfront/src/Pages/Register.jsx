@@ -11,7 +11,7 @@ const RegisterPage = () => {
   });
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const navigate = useNavigate(); // React Router'dan yönlendirme hook'u
+  const navigate = useNavigate(); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,10 +45,10 @@ const RegisterPage = () => {
       setError("");
       console.log("Registration successful:", data);
 
-      // Yönlendirme
+      
       setTimeout(() => {
-        navigate("/"); // "/" sayfasına yönlendirme
-      }, 2000); // 2 saniye bekleme süresi
+        navigate("/"); 
+      }, 2000); 
     } catch (error) {
       console.error("Error during registration:", error);
       setError("Registration failed. Please try again.");

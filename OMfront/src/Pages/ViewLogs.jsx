@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import "../styles/ViewLogs.css"; // You can style the page here
+import "../styles/ViewLogs.css"; 
 
 const ViewLogs = () => {
   const { user, role } = useAuth();
@@ -11,14 +11,14 @@ const ViewLogs = () => {
 
   useEffect(() => {
     if (!user || role !== "Admin") {
-      navigate("/"); // Redirect to home if not admin
+      navigate("/"); 
     }
 
     fetchLogs();
-    // Polling mechanism: Fetch logs every 5 seconds
+    
     const interval = setInterval(() => {
       fetchLogs();
-    }, 5000); // 5000 ms = 5 seconds
+    }, 5000); 
 
     return () => clearInterval(interval);
 
@@ -52,7 +52,7 @@ const ViewLogs = () => {
   };
 
   if (!user || role !== "Admin") {
-    return null; // If not admin, don't show the page
+    return null; 
   }
 
   return (

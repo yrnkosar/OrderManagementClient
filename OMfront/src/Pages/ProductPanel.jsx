@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/ProductPanel.css"; // Stil dosyası isteğe bağlı
+import "../styles/ProductPanel.css"; 
 import { useAuth } from "../AuthContext";
 
 
@@ -39,7 +39,7 @@ const ProductPanel = () => {
     if (!confirmDelete) return;
   
     try {
-      const token = auth?.token; // Token'ı auth nesnesinden alıyoruz
+      const token = auth?.token; 
       if (!token) {
         alert("Token not found. Please log in again.");
         return;
@@ -49,7 +49,7 @@ const ProductPanel = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Token burada header'a ekleniyor
+          Authorization: `Bearer ${token}`, 
         },
       });
   
@@ -68,14 +68,14 @@ const ProductPanel = () => {
   };
 
   const openEditModal = (product) => {
-    console.log(product.productId); // Make sure this logs the product ID when you open the modal
-    setEditingProduct(product); // This should set the editingProduct state correctly
+    console.log(product.productId); 
+    setEditingProduct(product); 
     setEditForm({
       productName: product.productName,
       stock: product.stock,
       price: product.price,
       description: product.description,
-      photo: product.photo, // Add the current photo URL to the form
+      photo: product.photo, 
     });
   };
 
@@ -245,13 +245,12 @@ const ProductPanel = () => {
         </table>
       )}
   
-      {/* Modal */}
       {editingProduct && (
         <div className="product-modal">
           <div className="product-modal-content">
             <h2>Edit Product</h2>
             <form onSubmit={handleEditSubmit}>
-              {/* Salt okunur Product ID */}
+             
               <div>
                 <label>Product ID</label>
                 <p>{editingProduct.productId}</p>

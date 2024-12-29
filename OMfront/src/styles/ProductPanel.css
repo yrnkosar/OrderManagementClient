@@ -1,4 +1,3 @@
-/* Product Body */
 .product-body {
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -20,16 +19,16 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
-  background-color: #ffa500; /* Turuncu tonlarında bir renk */
+  background-color: #ffa500; 
   color: white;
 }
 
 .product-stock-button:hover {
-  background-color: #e59400; /* Daha koyu turuncu */
+  background-color: #e59400; 
 }
 
 .product-stock-button:active {
-  background-color: #cc8400; /* En koyu ton */
+  background-color: #cc8400; 
 }
 
 .product-panel {
@@ -54,7 +53,7 @@
   text-align: center;
 }
 
-/* Table styles */
+
 .product-table {
   width: 100%;
   border-collapse: collapse;
@@ -107,7 +106,7 @@
   color: white;
 }
 
-/* Modal styles */
+
 .product-modal {
   position: fixed;
   top: 0;
@@ -177,7 +176,7 @@
   cursor: pointer;
 }
 
-/* Responsiveness */
+
 @media (max-width: 768px) {
   .product-list-page {
     padding: 20px;

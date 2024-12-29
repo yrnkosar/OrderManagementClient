@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "../styles/ViewOrders.css"; // Stil dosyası isteğe bağlı
+import "../styles/ViewOrders.css"; 
 import { useAuth } from "../AuthContext.jsx";
 
 const ViewOrders = () => {
   
-  const { auth, logout } = useAuth(); // AuthContext'ten auth ve logout'u al
+  const { auth, logout } = useAuth(); 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,19 +30,16 @@ const ViewOrders = () => {
 
         const data = await response.json();
 
-        //const sortedOrders = data.sort((a, b) => b.orderId - a.orderId);
-            // "Processing" durumundaki siparişleri en üste taşıyan sıralama
+       
     const sortedOrders = data.sort((a, b) => {
       if (a.orderStatus.toLowerCase() === "processing" && b.orderStatus.toLowerCase() !== "processing") {
-        return -1; // a üstte olsun
+        return -1; 
       }
       if (a.orderStatus.toLowerCase() !== "processing" && b.orderStatus.toLowerCase() === "processing") {
-        return 1; // b üstte olsun
+        return 1; 
       }
-      return b.orderId - a.orderId; // Diğer durumlarda ters sıralama
+      return b.orderId - a.orderId; 
     });
-      
-      
       
         setOrders(sortedOrders);
       } catch (err) {

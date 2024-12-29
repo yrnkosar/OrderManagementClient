@@ -5,28 +5,28 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(localStorage.getItem("authToken") || null);
-  const [user, setUser] = useState(null); // Ensure setUser is here
+  const [user, setUser] = useState(null); 
   const [auth, setAuth] = useState(null);
   const [customerType, setCustomerType] = useState(null);
-  const [userDetails, setUserDetails] = useState(null); // Kullanıcı detayları
-  const [role, setRole] = useState(null); // Role ekledik
+  const [userDetails, setUserDetails] = useState(null); 
+  const [role, setRole] = useState(null); 
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
     if (token) {
       try {
-        const decoded = jwtDecode(token); // Token'ı decode ediyoruz
+        const decoded = jwtDecode(token); 
         const customerId = decoded.CustomerId;
         setAuth({
           token: token,
-          customerId: customerId,  // Add customerId here
+          customerId: customerId,  
           role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
         });
 
-        setUser(decoded); // Kullanıcı bilgilerini state'e kaydediyoruz
-        setCustomerType(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]); // Kullanıcı rolünü set ediyoruz
-        setRole(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]); // Role bilgisi
+        setUser(decoded); 
+        setCustomerType(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]); 
+        setRole(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
         if (customerId) {
           fetch(`http://localhost:5132/api/Customer/${customerId}`, {
             method: "GET",
@@ -41,20 +41,20 @@ export const AuthProvider = ({ children }) => {
             });
         }
 
-        // authToken state'ini ve tüm auth verilerini güncelliyoruz
+        
         setAuthToken(token);
       } catch (error) {
         console.error("Invalid token:", error);
         logout();
       }
     } else {
-      // Token yoksa tüm state'leri temizliyoruz
+      
       setUser(null);
       setCustomerType(null);
       setUserDetails(null);
-      setRole(null); // Role'ü de null yapıyoruz
+      setRole(null); 
     }
-  }, [authToken]); // authToken değiştiğinde useEffect çalışacak
+  }, [authToken]); 
 
   const setAuthTokenAndUser = (token) => {
     setAuthToken(token);
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setCustomerType(null);
     setUserDetails(null);
-    setRole(null); // Role'ü de sıfırlıyoruz
+    setRole(null); 
     setAuthToken(null);
     localStorage.removeItem("authToken");
   };
