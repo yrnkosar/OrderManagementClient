@@ -49,7 +49,7 @@ API adresi .env dosyasında belirtilmelidir. Örnek:
 
 
 
-##📜 Lisans
+## 📜 Lisans
 
 Bu proje, MIT Lisansı altında sunulmuştur.
 
