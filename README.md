@@ -1,17 +1,17 @@
-🌟 Frontend
+# 🌟 Frontend
 
-📋 Genel Bakış
+## 📋 Genel Bakış
 
 Bu proje, React.js tabanlı bir frontend uygulamasıdır. Kullanıcıların sipariş oluşturmasını, stok durumunu görüntülemesini ve admin paneli üzerinden stok yönetimi yapmasını sağlar.
 
-🚀 Özellikler
+## 🚀 Özellikler
 
 ✅ Kullanıcı girişi ve kayıt olma (JWT kimlik doğrulama)
 ✅ Ürün listesi görüntüleme
 ✅ Sipariş oluşturma ve sipariş geçmişini görüntüleme
 ✅ Admin paneli ile ürün ve stok yönetimi
 
-🛠 Kullanılan Teknolojiler
+## 🛠 Kullanılan Teknolojiler
 
 React.js
 
@@ -23,25 +23,25 @@ Redux (State yönetimi)
 
 Bootstrap / Tailwind (Stil düzenlemeleri)
 
-🔧 Kurulum ve Çalıştırma
+## 🔧 Kurulum ve Çalıştırma
 
 Bağımlılıkları yüklemek için:
 
-npm install
+```npm install```
 
 Geliştirme ortamında çalıştırmak için:
 
-npm start
+```npm start```
 
-Uygulama varsayılan olarak http://localhost:3000 adresinde çalışır.
+Uygulama varsayılan olarak ```http://localhost:3000``` adresinde çalışır.
 
-🔗 API Bağlantıları
+## 🔗 API Bağlantıları
 
 API adresi .env dosyasında belirtilmelidir. Örnek:
 
-REACT_APP_API_URL=http://localhost:5000/api
+```REACT_APP_API_URL=http://localhost:5000/api```
 
-🖼 Ekran Görüntüleri
+## 🖼 Ekran Görüntüleri
 ![Ekran görüntüsü 2024-12-29 134429](https://github.com/user-attachments/assets/b5395274-5acb-4144-9ede-5f60722a0a7d)
 
 
@@ -49,7 +49,7 @@ REACT_APP_API_URL=http://localhost:5000/api
 
 
 
-📜 Lisans
+##📜 Lisans
 
 Bu proje, MIT Lisansı altında sunulmuştur.
 
